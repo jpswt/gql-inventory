@@ -1,0 +1,46 @@
+type Query {
+	hello: [String!]
+	# products with no filter
+	# products: [Product!]!
+
+	#this is products with filter
+	products(filter: ProductsFilterInput): [Product!]!
+
+	product(id: ID!): Product
+	categories: [Category!]!
+	category(id: ID!): Category
+	#One to many relationship
+}
+
+type Product {
+	id: ID!
+	name: String!
+	description: String!
+	quantity: Int!
+	price: Float!
+	image: String!
+	onSale: Boolean!
+	#By adding category to products, we have established a many to one relationship
+	category: Category
+	reviews: [Review!]!
+}
+
+type Category {
+	id: ID!
+	name: String!
+	#By adding products to category we have established one many relationship
+	products(filter: ProductsFilterInput): [Product!]!
+}
+
+type Review {
+	id: ID!
+	date: String!
+	title: String!
+	comment: String!
+	rating: Int!
+}
+
+input ProductsFilterInput {
+	onSale: Boolean
+	avgRating: Int
+}
